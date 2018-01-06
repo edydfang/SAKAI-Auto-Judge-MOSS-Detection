@@ -10,8 +10,9 @@ import shutil
 import os
 import errno
 import re
+import sys
 import patoolib
-
+import patoolib.util
 
 def is_compressed_file(filename):
     if re.match(r".+\/[^\/]+\.(7z|zip|rar)$", filename) is not None:
@@ -31,13 +32,16 @@ def recursively_extract():
         for name in files:
             filename = os.path.join(root, name)
             if is_compressed_file(filename):
-                patoolib.extract_archive(
-                    filename, outdir=root, verbosity=0, interactive=False)
+                try:
+                    patoolib.extract_archive(
+                        filename, outdir=root, verbosity=0, interactive=False)
+                except:
+                    print('Error extracting:', filename, file=sys.stderr)
+                    input("Press Enter to continue...")
                 print(filename)
                 os.remove(filename)
         # for name in dirs:
         #     print(os.path.join(root, name))
-
 
 def main():
     '''
@@ -58,6 +62,6 @@ def main():
     recursively_extract()
     eliminate_whitespace()
 
-
 if __name__ == "__main__":
     main()
+
