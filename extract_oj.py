@@ -5,6 +5,24 @@ For MOSS plagirasim detection.
 '''
 
 import csv
+import os
+
+
+def extract_csv(filename):
+    '''
+    extract csv into different folders and files
+    input: standard csv file
+    '''
+    csvfile = open(filename)
+    reader = csv.reader(csvfile)
+    for row in reader:
+        codefile = "./data/%s/%s/%s.java" % (row[1], row[0], row[2])
+        os.makedirs(os.path.dirname(codefile), exist_ok=True)
+        with open(codefile, "w") as filed:
+            filed.write(row[3])
+
+def check_language(code_str):
+    pass
 
 
 def main():
@@ -13,12 +31,13 @@ def main():
     '''
     csvfile = open('./data/oj.csv')
     valid_data = dict()
+    # special escapechar
     reader = csv.reader(csvfile, delimiter=',', escapechar='\\')
     valid_record = 0
     fetch_row(reader, valid_data)
     print(valid_record)
     csvfile.close()
-    with open('output.csv', 'w') as csvfile:
+    with open('./data/output.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerows(dict2list(valid_data))
 
