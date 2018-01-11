@@ -18,6 +18,7 @@ sudo apt-get install p7zip-full rar
 
 ## TODO
 
- - [] Integrate with [mosspy](https://github.com/soachishti/moss.py)
- - [] Auto ditinguish different language
- - [] move one students' code into the root of the same directory
+ - [ ] Integrate with [mosspy](https://github.com/soachishti/moss.py)
+ - [ ] Auto ditinguish different language
+ - [ ] Move one students' code into the root of the same directory
+ - [ ] Remove code/report records from OJ when there exists code from SAKAI
