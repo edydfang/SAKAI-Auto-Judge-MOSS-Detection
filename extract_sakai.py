@@ -15,20 +15,34 @@ import patoolib
 import patoolib.util
 
 def is_compressed_file(filename):
-    if re.match(r".+\/[^\/]+\.(7z|zip|rar)$", filename) is not None:
+    '''
+    check whethter the file is an compressed file
+    '''
+    if re.match(r".+\/[^\/]+\.(7z|zip|rar|tar\.gz)$", filename) is not None:
         return True
     return False
 
 def eliminate_whitespace():
+    '''
+    eliminate all whitespaces in filenames or direnames
+    '''
     for root, dirs, files in os.walk("./judge", topdown=False):
         for name in dirs:
             if ' ' in name:
                 new_name = name.replace(" ", "_")
                 print(name, new_name)
                 shutil.move(os.path.join(root, name), os.path.join(root, new_name))
+        for name in files:
+            if ' ' in name:
+                new_name = name.replace(" ", "_")
+                print(name, new_name)
+                shutil.move(os.path.join(root, name), os.path.join(root, new_name))
 
 def recursively_extract():
-    for root, dirs, files in os.walk("./judge", topdown=False):
+    '''
+    recursively extract all files in a compressed file
+    '''
+    for root, _, files in os.walk("./judge", topdown=False):
         for name in files:
             filename = os.path.join(root, name)
             if is_compressed_file(filename):
