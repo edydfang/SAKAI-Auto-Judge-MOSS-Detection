@@ -38,4 +38,4 @@ where `600` is number of matching files to show in the results.
  - [ ] Auto ditinguish different language
  - [ ] Move one students' code into the root of the same directory
  - [x] Remove code/report records from OJ when there exists code from SAKAI
- - [ ] Generate table from the HTML result
+ - [x] Generate table from the HTML result
