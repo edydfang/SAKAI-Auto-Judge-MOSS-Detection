@@ -5,7 +5,7 @@ This script is used to download the moss report and process it for a better outp
 '''
 import logging
 import re
-import unittest
+
 try:
     from urllib.request import urlopen
 except ImportError:
@@ -23,17 +23,17 @@ def filter_report_cate(report_url):
     soup = add_encoding_header(soup)
     allrows = soup.find_all("tr")[1:]
     for row in allrows:
-        tds = row.find_all("td")
+        tds = row.find_all("td")[0:2]
         results = list()
-        for td in tds[0:2]:
+        for td in tds:
             # print(td)
             result = get_studentId_percentage(td.a.text)
             results.append(result)
         if results[0][0] == results[1][0]:
             row.decompose()
         else:
-            for idx, td in enumerate(tds[0:2]):
-                td.a.string = "ID: %s, Percentage: %s" % results[idx]
+            for idx, td in enumerate(tds):
+                td.a.string = "ID: %s, Percentage: (%s%%)" % results[idx]
             print(results)
     return soup.prettify(formatter="html")
 
@@ -46,6 +46,7 @@ def get_studentId_percentage(rawtext):
     '''
     return the studentId matched by file name
     '''
+    rawtext = rawtext.strip()
     regex_id = r'11[2-6][1|2][0-3][0-9]{3}'
     regex_percentage = r'\((\d{1,2})\%\)$'
     match_id = re.search(regex_id, rawtext)

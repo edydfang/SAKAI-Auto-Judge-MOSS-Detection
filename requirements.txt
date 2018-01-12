@@ -1,3 +1,4 @@
 patool
 mosspy
 bs4
+openpyxl
