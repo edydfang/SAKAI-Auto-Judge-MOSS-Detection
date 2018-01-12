@@ -3,4 +3,5 @@
 judge/
 bulk_download.zip
 data/
+__pycache__/
 

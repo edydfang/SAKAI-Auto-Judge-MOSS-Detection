@@ -22,11 +22,11 @@ def is_compressed_file(filename):
         return True
     return False
 
-def eliminate_whitespace():
+def eliminate_whitespace(directory):
     '''
     eliminate all whitespaces in filenames or direnames
     '''
-    for root, dirs, files in os.walk("./judge", topdown=False):
+    for root, dirs, files in os.walk(directory, topdown=False):
         for name in dirs:
             if ' ' in name:
                 new_name = name.replace(" ", "_")
@@ -38,11 +38,11 @@ def eliminate_whitespace():
                 print(name, new_name)
                 shutil.move(os.path.join(root, name), os.path.join(root, new_name))
 
-def recursively_extract():
+def recursively_extract(directory):
     '''
     recursively extract all files in a compressed file
     '''
-    for root, _, files in os.walk("./judge", topdown=False):
+    for root, _, files in os.walk(directory, topdown=False):
         for name in files:
             filename = os.path.join(root, name)
             if is_compressed_file(filename):
@@ -73,8 +73,8 @@ def main():
             raise
     patoolib.extract_archive(
         args.filename.name, outdir='./judge', verbosity=0, interactive=False)
-    recursively_extract()
-    eliminate_whitespace()
+    recursively_extract("./judge")
+    eliminate_whitespace("./judge")
 
 if __name__ == "__main__":
     main()
