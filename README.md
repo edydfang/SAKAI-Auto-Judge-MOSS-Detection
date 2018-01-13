@@ -31,10 +31,18 @@ Useful Option for `moss.sh`:
 
 where `600` is number of matching files to show in the results.
 
+## Features
+
+ - Extract codes from OJ and SAKAI in a good and robust way
+ - Upload and get the analysis results of code similarity from MIT MOSS
+ - Download the filter the Report
+ - Generate `xlsx` format report from the `html` report
+  - Auto matching of the student Id from the file path
+  - Auto adding student names from an existing source
 
 ## TODO
 
- - [ ] Integrate with [mosspy](https://github.com/soachishti/moss.py)
+ - [x] Integrate with [mosspy](https://github.com/soachishti/moss.py)
  - [ ] Auto ditinguish different language
  - [ ] Move one students' code into the root of the same directory
  - [x] Remove code/report records from OJ when there exists code from SAKAI

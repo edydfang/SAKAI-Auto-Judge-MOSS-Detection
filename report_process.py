@@ -14,7 +14,6 @@ import mosspy
 from bs4 import BeautifulSoup
 
 
-
 def filter_report_cate(report_url):
     logging.debug("Filtering URL: " + report_url)
     response = urlopen(report_url)
@@ -37,10 +36,13 @@ def filter_report_cate(report_url):
             print(results)
     return soup.prettify(formatter="html")
 
+
 def add_encoding_header(soup):
-    charset_tag = soup.new_tag("meta", charset="utf-8")
-    soup.head.append(charset_tag)
+    if soup.meta.get('charset') is None:
+        charset_tag = soup.new_tag("meta", charset="utf-8")
+        soup.head.append(charset_tag)
     return soup
+
 
 def get_studentId_percentage(rawtext):
     '''
@@ -60,7 +62,6 @@ def get_studentId_percentage(rawtext):
     return std_id, percentatge
 
 
-
 def download_report(report_url):
     '''
     download all reports from the server for offline usage
@@ -70,9 +71,10 @@ def download_report(report_url):
 
 def main():
     # download_report("http://moss.stanford.edu/results/813904023/")
-    filtered_report = filter_report_cate("http://moss.stanford.edu/results/813904023/")
+    filtered_report = filter_report_cate(
+        "http://moss.stanford.edu/results/813904023/")
     with open("./judge/report/newindex.html", mode='w+') as newidnex:
-        newidnex.write(filtered_report) 
+        newidnex.write(filtered_report)
 
 
 if __name__ == '__main__':
