@@ -10,7 +10,7 @@ except ImportError:
 
 
 def add_encoding_header(soup):
-    if soup.meta.get('charset') is None:
+    if soup.meta is None or soup.meta.get('charset') is None:
         charset_tag = soup.new_tag("meta", charset="utf-8")
         soup.head.append(charset_tag)
     return soup
@@ -48,12 +48,18 @@ def process_html(html, file_name, urls, base_url, path):
             link = more_url.get('src')
 
         if link and (link.find("match") != -1):  # Download only results urls
-            link = link.split('#')[0]  # remove fragment from url
+            link_components = link.split('#')  # remove fragment from url
+            anchor = None
+            if len(link_components) > 1:
+                anchor = link_components[1]
+            link = link_components[0]
             basename = os.path.basename(link)
 
             if basename == link:  # Handling relative urls
                 link = base_url + basename
-
+            # add anchor
+            if anchor:
+                basename = "%s#%s" % (basename, anchor)
             if more_url.name == "a":
                 more_url['href'] = basename
             elif more_url.name == "frame":
@@ -118,5 +124,5 @@ def multi_threading(urls, base_url, path, threads, connections):
 
 
 if __name__ == '__main__':
-    retrive_report("./judge/report/lab08/newindex.html",
-                   "http://moss.stanford.edu/results/813904023")
+    retrive_report("./judge/report/lab9/index.html",
+                   "http://moss.stanford.edu/results/86775130")

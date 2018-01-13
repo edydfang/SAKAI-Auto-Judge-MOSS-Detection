@@ -38,7 +38,7 @@ def filter_report_cate(report_url):
 
 
 def add_encoding_header(soup):
-    if soup.meta.get('charset') is None:
+    if soup.meta is None or soup.meta.get('charset') is None:
         charset_tag = soup.new_tag("meta", charset="utf-8")
         soup.head.append(charset_tag)
     return soup
@@ -72,8 +72,8 @@ def download_report(report_url):
 def main():
     # download_report("http://moss.stanford.edu/results/813904023/")
     filtered_report = filter_report_cate(
-        "http://moss.stanford.edu/results/813904023/")
-    with open("./judge/report/newindex.html", mode='w+') as newidnex:
+        "http://moss.stanford.edu/results/744474123")
+    with open("./judge/report/lab3/index.html", mode='w+') as newidnex:
         newidnex.write(filtered_report)
 
 

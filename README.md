@@ -43,7 +43,8 @@ where `600` is number of matching files to show in the results.
 ## TODO
 
  - [x] Integrate with [mosspy](https://github.com/soachishti/moss.py)
- - [ ] Auto ditinguish different language
- - [ ] Move one students' code into the root of the same directory
  - [x] Remove code/report records from OJ when there exists code from SAKAI
  - [x] Generate table from the HTML result
+ - [ ] Auto ditinguish different language from SAKAI data
+ - [ ] Move one students' code into the root of the same directory
+ - [ ] Replace all none ASCII characters in the code with ASCII characters

@@ -3,10 +3,40 @@
 '''
 This script is used to generate an xlsx table from the report html index
 '''
-
+import csv
 from openpyxl import Workbook, load_workbook
 from bs4 import BeautifulSoup
 from report_process import get_studentId_percentage
+
+classdict = dict()
+
+def load_student_dict(csvfile):
+    '''
+    load a mapping from id to name
+    '''
+    filed = open(csvfile)
+    csv_reader = csv.reader(filed)
+    for row in csv_reader:
+        classdict[row[0]] = row[1]
+
+def get_name_from_id(stud_id):
+    if not stud_id or stud_id == '':
+        return 'Not found'
+    try:
+        return classdict[stud_id]
+    except KeyError:
+        return 'Not found'
+
+def insert_name_row(row):
+    '''
+    insert the name into the row according to the mapping
+    '''
+    stud_id_list = [row[1], row[3]]
+    stud_name = []
+    for stud_id in stud_id_list:
+        stud_name.append(get_name_from_id(stud_id))
+    row.insert(4, stud_name[1])
+    row.insert(2, stud_name[0])
 
 
 def read_from_html(htmlfile):
@@ -41,8 +71,8 @@ def init_table(tablefile):
     '''
     wb = Workbook()
     ws1 = wb.active
-    tableheader = ['LabNum', 'StuId1', 'Percentage1/%',
-                   'StuId2', 'Percentage2/%', 'Matched lines']
+    tableheader = ['LabNum', 'StuId1', 'StuName1', 'Percentage1/%',
+                   'StuId2', 'StuName2', 'Percentage2/%', 'Matched lines']
     for idx, header in enumerate(tableheader):
         ws1.cell(row=1, column=idx + 1, value=header)
     wb.save(tablefile)
@@ -58,6 +88,7 @@ def append_table(tablefile, tabledata, labnum):
     row_offset = ws1.max_row
     for rowidx, row in enumerate(tabledata):
         row.insert(0, labnum)
+        insert_name_row(row)
         for columnidx, info in enumerate(row):
             # print(info)
             ws1.cell(row=row_offset + rowidx + 1,
@@ -66,9 +97,11 @@ def append_table(tablefile, tabledata, labnum):
 
 
 def main():
+    load_student_dict("./data/classDict.csv")
     init_table("./judge/report/result.xlsx")
-    tabledata = read_from_html("./judge/report/newindex.html")
-    append_table("./judge/report/result.xlsx", tabledata, 8)
+    for idx in range(1, 10):
+        tabledata = read_from_html("./judge/report/lab%d/index.html" % idx)
+        append_table("./judge/report/result.xlsx", tabledata, idx)
 
 
 if __name__ == '__main__':
