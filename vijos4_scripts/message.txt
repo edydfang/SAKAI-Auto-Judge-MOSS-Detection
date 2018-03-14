@@ -1,0 +1,19 @@
+Dear Student,
+
+Welcome to CS208.
+
+Here is your online judge account infomation:
+
+Online judge URL (only can be accessed in the university temporarily): 
+https://oj.sustc.space
+
+Username ${ACCOUNT}
+Password ${PASSWORD}
+
+This message is sent by the system, do not try to reply.
+
+If you have any problem, please contact with the TA.
+
+Best Regards,
+CS208 OJ Team.
+CSE, SUSTech.
