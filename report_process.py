@@ -11,6 +11,7 @@ try:
 except ImportError:
     from urllib2 import urlopen
 import mosspy
+import argparse
 from bs4 import BeautifulSoup
 
 
@@ -70,11 +71,17 @@ def download_report(report_url):
 
 
 def main():
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('-l', metavar='Base URL of the report', type=str, required=True,
+                        help='The URL of the report')
+    parser.add_argument('-o', metavar='location downloaded index file', type=argparse.FileType(mode='w+'), required=True,
+                        help='The location of the report files')
+    args = parser.parse_args()
     # download_report("http://moss.stanford.edu/results/813904023/")
-    filtered_report = filter_report_cate(
-        "http://moss.stanford.edu/results/744474123")
-    with open("./judge/report/lab3/index.html", mode='w+') as newidnex:
-        newidnex.write(filtered_report)
+    filtered_report = filter_report_cate(args.l)
+    filed = args.o
+    filed.write(filtered_report)
+    filed.close()
 
 
 if __name__ == '__main__':

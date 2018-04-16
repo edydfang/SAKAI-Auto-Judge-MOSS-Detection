@@ -3,6 +3,7 @@ from threading import Thread
 import logging
 import os
 from bs4 import BeautifulSoup
+import argparse
 try:
     from urllib.request import urlopen
 except ImportError:
@@ -123,6 +124,15 @@ def multi_threading(urls, base_url, path, threads, connections):
         thread.join()
 
 
+def main():
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('-l', metavar='Base URL of the report', type=str, required=True,
+                        help='The URL of the report')
+    parser.add_argument('-f', metavar='downloaded index file', type=str, required=True,
+                        help='The location of the report files')
+    args = parser.parse_args()
+    retrive_report(args.f, args.l)
+
+
 if __name__ == '__main__':
-    retrive_report("./judge/report/lab9/index.html",
-                   "http://moss.stanford.edu/results/86775130")
+    main()

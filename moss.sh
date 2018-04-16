@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# Please read all the comments down to the line that says "STOP".
+# Please read all the comments down to the line that says "TOP".
 # These comments are divided into three sections:
 #
 #     1. usage instructions
@@ -352,7 +352,6 @@ print "Query submitted.  Waiting for the server's response.\n";
 &read_from_server();
 print $sock "end\n";
 close($sock);
-
 
 
 
